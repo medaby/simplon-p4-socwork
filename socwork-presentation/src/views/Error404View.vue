@@ -9,5 +9,8 @@
 </template>
 
 <style scoped>
-
+h1 {
+  color: brown;
+  font-weight: bold;
+}
 </style>
