@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'AccountCreateView',
+  name: 'LoginView',
   data() {
     return {
      input:{
@@ -10,7 +10,7 @@ export default {
     };
   },
   methods: {
-    async createAccount() {
+    async loginUser() {
       const options = {
         method: 'POST',
         headers: {
@@ -18,10 +18,14 @@ export default {
         },
         body: JSON.stringify(this.input),
       };
-      const response = await fetch('http://localhost:8080/accounts', options);
-
+      const response = await fetch('http://localhost:8080/accounts/login', options);
       if(response.ok){
         //this.$router.push({name: 'AccountLoginView'});
+        const body = await response.body.getReader().read().then(({value}) => {
+          return new TextDecoder().decode(value);
+        });
+        console.log('Connectée');
+        console.log(body);
         alert('Compte créé avec succès');
       }else{
         console.error('Une erreur est survenue');
@@ -34,8 +38,8 @@ export default {
 
 <template>
   <div class="account-create">
-    <h1>Crée un compte</h1>
-    <form @submit.prevent="createAccount" novalidate>
+    <h1>Connexion</h1>
+    <form @submit.prevent="loginUser" novalidate>
       <label for="username">Nom d'utilisateur</label>
       <input type="email" id="username" name="username" v-model="input.username" required>
       <label for="password">Mot de passe</label>

@@ -14,6 +14,11 @@ const router = createRouter({
       alias: '/index.html'
     },
     {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/LoginView.vue'),
+    },
+    {
       path: '/:catchAll(.*)',
       name: 'erreur-404',
       component: () => import('../views/Error404View.vue'),
