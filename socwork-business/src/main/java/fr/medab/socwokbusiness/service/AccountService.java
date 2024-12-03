@@ -24,9 +24,10 @@ public class AccountService {
 
     public void create(AccountCreate inputs) {
 
-        if (checkEmailExists(inputs.username())) {
-            throw new IllegalArgumentException("Email already exists");
-        }
+//        if (checkEmailExists(inputs.username())) {
+//            //throw new IllegalArgumentException("Email already exists");
+//            throw new DataIntegrityViolationException("Username already exists");
+//        }
 
         Account account = new Account();
         account.setUsername(inputs.username());
@@ -34,12 +35,12 @@ public class AccountService {
         accountRepository.save(account);
     }
 
-    public Object login(AccountAuthenticate credentials) {
-        String username = credentials.username();
+    public Object login(AccountAuthenticate inputs) {
+        String username = inputs.username();
         Account account = accountRepository.findByUsernameIgnoreCase(username)
                 .orElseThrow(() -> new BadCredentialsException(username));
 
-        if (!passwordEncoder.matches(credentials.password(), account.getPassword()))
+        if (!passwordEncoder.matches(inputs.password(), account.getPassword()))
             throw new BadCredentialsException(username);
 
         return jwtProvider.createToken(username);

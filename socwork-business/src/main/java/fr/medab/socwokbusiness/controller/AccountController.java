@@ -25,8 +25,8 @@ public class AccountController {
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.CREATED)
-    Object login(@RequestBody AccountAuthenticate credentials) {
-        return accountService.login(credentials);
+    Object login(@RequestBody AccountAuthenticate inputs) {
+        return accountService.login(inputs);
     }
 
     @GetMapping("/test")

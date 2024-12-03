@@ -5,13 +5,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CustomException {
+public class CustomError {
 
     private final Map<String, Collection<String>> fieldErrors = new HashMap<>();
 
     private final Collection<String> globalErrors = new ArrayList<>();
 
-    public CustomException() {
+    public CustomError() {
         //
     }
 
