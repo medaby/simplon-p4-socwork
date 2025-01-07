@@ -1,16 +1,16 @@
-<script>
+<script >
 export default {
-  name: 'AccountCreateView',
+  name: 'AccountAuthenticateView',
   data() {
     return {
-     input:{
-       username: '',
-       password: ''
-     }
+      input:{
+        username: '',
+        password: ''
+      }
     };
   },
   methods: {
-    async createAccount() {
+    async submit() {
       const options = {
         method: 'POST',
         headers: {
@@ -18,15 +18,13 @@ export default {
         },
         body: JSON.stringify(this.input),
       };
-      const response = await fetch('https://localhost:8443/accounts', options);
+      const response = await fetch('http://localhost:8080/accounts/authenticate', options);
 
-      console.log(response.status);
-
-      if(response.ok){
-        //this.$router.push({name: 'AccountLoginView'});
-        alert('Compte créé avec succès');
+      if( response.status === 401 ){
+        alert('Bad Crédentials');
       }else{
-        console.error('Une erreur est survenue');
+        const data = await response.text();
+        console.log(data);
       }
       console.log(this.input);
     }
@@ -37,30 +35,17 @@ export default {
 <template>
   <div class="account-create">
     <h1>Crée un compte</h1>
-    <form @submit.prevent="createAccount" novalidate>
+    <form @submit.prevent="submit" novalidate>
       <label for="username">Nom d'utilisateur</label>
       <input type="email" id="username" name="username" v-model="input.username" required>
       <label for="password">Mot de passe</label>
       <input type="password" id="password" name="password" v-model="input.password" required>
-      <button type="submit">Créer un compte</button>
+      <button type="submit" >Je m'authentifie</button>
     </form>
-   <div> {{ input.username }} </div>
+    <div> {{ input.username }} </div>
   </div>
 </template>
 
 <style scoped>
-label+input {
-  display: block;
-  margin-bottom: 1rem;
-}
 
-label::after {
-  content: ' *';
-  color: red;
-}
-
-h1 {
-  color: blue;
-  font-weight: bold;
-}
 </style>
